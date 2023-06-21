@@ -64,6 +64,9 @@ fun processBookmark(bookmark: Bookmark, tags: List<String>) {
     } else if (bookmark.children != null) {
         // 这是一个文件夹
         val newTags = tags + bookmark.title
+        if (bookmark.title.contains(" ")) {
+            println("Info: Folder name contains space: ${bookmark.title}")
+        }
         for (child in bookmark.children) {
             processBookmark(child, newTags)
         }
@@ -154,7 +157,7 @@ fun convertJsonToMarkdown(inputFile: String, outputFile: String) {
 }
 
 fun bookmarkToMarkdown(bookmark: FlatBookmark): String {
-    val tags = bookmark.tags?.joinToString(",") { "#$it" }
+    val tags = bookmark.tags?.joinToString(" ") { " #$it " }
     return "[${bookmark.title}](${bookmark.url}) $tags ,date=${bookmark.add_date}"
 }
 //endregion
